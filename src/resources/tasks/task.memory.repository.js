@@ -13,7 +13,7 @@ const getTasksByBoardId = async boardId => {
 };
 
 const getTasksByBoardTaskIds = async (boardId, taskId) =>
-  tasks.find(task => task.id === taskId);
+  tasks.find(task => task.id === taskId && task.boardId === boardId);
 
 const addTask = async (boardId, task) => {
   const newTask = new Task(task);
@@ -27,7 +27,7 @@ const deleteTasksByBoardId = async boardId => {
 };
 
 const updateTask = async (boardId, taskId, data) => {
-  const index = findTask(taskId);
+  const index = await findTask(taskId);
   if (index < 0) {
     return null;
   }
@@ -40,7 +40,7 @@ const updateTask = async (boardId, taskId, data) => {
 };
 
 const deleteTask = async taskId => {
-  const index = findTask(taskId);
+  const index = await findTask(taskId);
   if (index < 0) {
     return false;
   }

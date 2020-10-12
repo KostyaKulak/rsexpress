@@ -12,7 +12,7 @@ boardRouter.route('/:id').get(async (req, res) => {
   if (board) {
     res.json(board);
   } else {
-    throw404();
+    throw404(res);
   }
 });
 
@@ -31,7 +31,8 @@ boardRouter.route('/:id').put(async (req, res) => {
 });
 
 boardRouter.route('/:id').delete(async (req, res) => {
-  if (await boardsService.deleteBoard(req.params.id)) {
+  const isDeleted = await boardsService.deleteBoard(req.params.id);
+  if (isDeleted) {
     res.status(204).json();
   } else {
     throw404();

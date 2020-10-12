@@ -26,7 +26,7 @@ userRouter.route('/').post(async (req, res) => {
 userRouter.route('/:id').put(async (req, res) => {
   const user = await usersService.updateUser(req.params.id, req.body);
   if (user) {
-    await res.status(200).json(User.toResponse(user));
+    res.status(200).json(User.toResponse(user));
   } else {
     throw401();
   }

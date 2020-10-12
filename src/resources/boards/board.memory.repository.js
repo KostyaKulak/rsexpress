@@ -8,7 +8,7 @@ const getAll = async () => {
   return boards;
 };
 
-const findBoard = id => {
+const findBoard = async id => {
   return boards.findIndex(board => board.id === id);
 };
 
@@ -26,7 +26,7 @@ const addBoard = async board => {
 };
 
 const updateBoard = async (id, data) => {
-  const index = findBoard(id);
+  const index = await findBoard(id);
   if (index < 0) {
     return null;
   }
@@ -36,7 +36,7 @@ const updateBoard = async (id, data) => {
 };
 
 const deleteBoard = async id => {
-  const index = findBoard(id);
+  const index = await findBoard(id);
   if (index < 0) {
     return false;
   }

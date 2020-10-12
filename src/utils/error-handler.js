@@ -1,7 +1,11 @@
-const throw404 = () => {
-  const error = new Error();
-  error.status = 404;
-  throw error;
+const throw404 = res => {
+  if (res) {
+    res.status(404).send();
+  } else {
+    const error = new Error();
+    error.status = 404;
+    throw error;
+  }
 };
 
 const throw401 = () => {
