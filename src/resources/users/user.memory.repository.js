@@ -1,8 +1,13 @@
 const User = require('./user.model');
+const taskService = require('../tasks/task.service');
 const users = [];
 
 const getAll = async () => {
   return users;
+};
+
+const findUser = id => {
+  return users.findIndex(user => user.id === id);
 };
 
 const addUser = async user => {
@@ -20,7 +25,7 @@ const getUser = async id => {
 };
 
 const updateUser = async (id, data) => {
-  const index = users.findIndex(user => user.id === id);
+  const index = findUser(id);
   if (index < 0) {
     return null;
   }
@@ -31,11 +36,12 @@ const updateUser = async (id, data) => {
 };
 
 const deleteUser = async id => {
-  const index = users.findIndex(user => user.id === id);
+  const index = findUser(id);
   if (index < 0) {
     return false;
   }
   users.splice(index, 1);
+  await taskService.deleteUserFromTasks(id);
   return true;
 };
 

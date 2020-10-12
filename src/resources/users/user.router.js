@@ -1,6 +1,8 @@
 const userRouter = require('express').Router();
 const User = require('./user.model');
 const usersService = require('./user.service');
+const { throw401 } = require('../../utils/error-handler');
+const { throw404 } = require('../../utils/error-handler');
 
 userRouter.route('/').get(async (req, res) => {
   const users = await usersService.getAll();
@@ -12,9 +14,7 @@ userRouter.route('/:id').get(async (req, res) => {
   if (userWithId) {
     res.status(200).json(User.toResponse(userWithId));
   } else {
-    const error = new Error();
-    error.status = 404;
-    throw error;
+    throw404();
   }
 });
 
@@ -28,9 +28,7 @@ userRouter.route('/:id').put(async (req, res) => {
   if (user) {
     await res.status(200).json(User.toResponse(user));
   } else {
-    const error = new Error();
-    error.status = 401;
-    throw error;
+    throw401();
   }
 });
 
@@ -38,9 +36,7 @@ userRouter.route('/:id').delete(async (req, res) => {
   if (await usersService.deleteUser(req.params.id)) {
     res.status(204).json();
   } else {
-    const error = new Error();
-    error.status = 404;
-    throw error;
+    throw404();
   }
 });
 
