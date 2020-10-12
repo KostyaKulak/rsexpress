@@ -34,4 +34,14 @@ userRouter.route('/:id').put(async (req, res) => {
   }
 });
 
+userRouter.route('/:id').delete(async (req, res) => {
+  if (await usersService.deleteUser(req.params.id)) {
+    res.status(204).json();
+  } else {
+    const error = new Error();
+    error.status = 404;
+    throw error;
+  }
+});
+
 module.exports = userRouter;
