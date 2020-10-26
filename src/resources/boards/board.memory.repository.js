@@ -1,6 +1,5 @@
 const Board = require('./board.model');
 const uuid = require('uuid');
-const taskService = require('../tasks/task.service');
 
 const boards = [];
 
@@ -40,7 +39,6 @@ const deleteBoard = async id => {
   if (index < 0) {
     return false;
   }
-  await taskService.deleteTasksByBoardId(id);
   boards.splice(index, 1);
   return true;
 };

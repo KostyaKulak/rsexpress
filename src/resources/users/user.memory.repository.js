@@ -41,7 +41,6 @@ const deleteUser = async id => {
     return false;
   }
   users.splice(index, 1);
-  await taskService.deleteUserFromTasks(id);
   return true;
 };
 
