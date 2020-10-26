@@ -1,4 +1,7 @@
-const usersRepo = require('./user.memory.repository');
+const usersRepo =
+  process.env.STORAGE_MODE === 'memory'
+    ? require('./user.memory.repository')
+    : require('./user.db.repository');
 const taskService = require('../tasks/task.service');
 
 const getAll = () => usersRepo.getAll();

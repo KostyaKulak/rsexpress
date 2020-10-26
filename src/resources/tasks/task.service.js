@@ -1,4 +1,7 @@
-const taskRepo = require('./task.memory.repository');
+const taskRepo =
+  process.env.STORAGE_MODE === 'memory'
+    ? require('./task.memory.repository')
+    : require('./task.db.repository');
 
 const getTasksByBoardId = boardId => taskRepo.getTasksByBoardId(boardId);
 const getAll = () => taskRepo.getAll();
