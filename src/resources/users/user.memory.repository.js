@@ -1,5 +1,4 @@
 const User = require('./user.model');
-const taskService = require('../tasks/task.service');
 const users = [];
 
 const getAll = async () => {
