@@ -5,6 +5,7 @@ const usersRepo =
 const taskService = require('../tasks/task.service');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const { throw403 } = require('../../utils/error.utils');
 const { throw401 } = require('../../utils/error.utils');
 const { catchErrors } = require('../../utils/error.handler');
 const saltRounds = 10;
@@ -40,6 +41,7 @@ const getToken = async (login, password) => {
     });
     return { token };
   }
+  throw403();
 };
 
 const checkToken = catchErrors(async (req, res, next) => {
