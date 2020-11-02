@@ -1,4 +1,7 @@
-const boardsRepo = require('./board.memory.repository');
+const boardsRepo =
+  process.env.STORAGE_MODE === 'memory'
+    ? require('./board.memory.repository')
+    : require('./board.db.repository');
 const taskService = require('../tasks/task.service');
 
 const getAll = () => boardsRepo.getAll();

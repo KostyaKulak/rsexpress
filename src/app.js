@@ -7,9 +7,13 @@ const taskRouter = require('./resources/tasks/task.router');
 const boardRouter = require('./resources/boards/board.router');
 const { errorHandler } = require('./utils/error.handler');
 const { logReqInfo } = require('./common/logging/logger');
-
+const { exit } = process;
 const app = express();
 const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
+
+process
+  .on('unhandledRejection', errorHandler)
+  .on('uncaughtException', err => errorHandler(err).then(() => exit(1)));
 
 app.use(express.json());
 
@@ -23,11 +27,11 @@ app.use('/', (req, res, next) => {
   next();
 });
 
+app.use(errorHandler);
+app.use(logReqInfo);
+
 app.use('/users', userRouter);
 app.use('/boards', boardRouter);
 boardRouter.use('/:boardId/tasks', taskRouter);
-
-app.use(errorHandler);
-app.use(logReqInfo);
 
 module.exports = app;

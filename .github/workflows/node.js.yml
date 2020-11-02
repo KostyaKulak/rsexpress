@@ -26,3 +26,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
       - run: npm run start-test
+        env:
+          STORAGE_MODE: memory
+      - run: npm run start-test
+        env:
+          STORAGE_MODE: db

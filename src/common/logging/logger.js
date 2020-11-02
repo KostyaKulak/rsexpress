@@ -1,6 +1,6 @@
-const { INFO_LOG, ERROR_LOG } = require('./log.types');
-const { ReqInfo } = require('./reqInfo');
+const { INFO_LOG, ERROR_LOG, DEBUG_LOG } = require('./log.types');
 const { createLogger, format, transports } = require('winston');
+const expressWinston = require('express-winston');
 
 const logFormat = format.combine(
   format.colorize(),
@@ -8,8 +8,8 @@ const logFormat = format.combine(
   format.json()
 );
 
-const logger = createLogger({
-  level: 'silly',
+const options = {
+  level: DEBUG_LOG.level,
   format: format.combine(format.colorize(), format.cli()),
   transports: [
     new transports.Console(),
@@ -22,12 +22,15 @@ const logger = createLogger({
       filename: INFO_LOG.file,
       level: INFO_LOG.level,
       format: logFormat
+    }),
+    new transports.File({
+      filename: DEBUG_LOG.file,
+      level: DEBUG_LOG.level,
+      format: logFormat
     })
   ]
-});
-
-const logReqInfo = req => {
-  logger.info(JSON.stringify(new ReqInfo(req.url, req.params, req.body)));
 };
 
-module.exports = { logger, logReqInfo };
+const logger = createLogger(options);
+
+module.exports = { logger, logReqInfo: expressWinston.logger(options) };
