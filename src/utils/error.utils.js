@@ -14,4 +14,10 @@ const throw401 = () => {
   throw error;
 };
 
-module.exports = { throw401, throw404 };
+const throw403 = () => {
+  const error = new Error();
+  error.status = 403;
+  throw error;
+};
+
+module.exports = { throw401, throw403, throw404 };

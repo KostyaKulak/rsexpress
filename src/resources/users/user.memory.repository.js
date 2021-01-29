@@ -43,4 +43,14 @@ const deleteUser = async id => {
   return true;
 };
 
-module.exports = { getAll, addUser, getUser, updateUser, deleteUser };
+const getPasswordByUser = async (login, password) =>
+  users.filter(user => user.login === login && user.password === password);
+
+module.exports = {
+  getAll,
+  addUser,
+  getUser,
+  updateUser,
+  deleteUser,
+  getPasswordByUser
+};
